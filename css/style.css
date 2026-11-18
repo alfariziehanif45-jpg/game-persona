@@ -1,0 +1,61 @@
+/* Tema bergaya Persona: hitam-merah-putih, miring, tajam */
+*{box-sizing:border-box}
+body{margin:0;color:#fff;font-family:Impact,'Arial Black',sans-serif;letter-spacing:1px;text-transform:uppercase;overflow-x:hidden;
+ background:radial-gradient(#3a0a14 1.5px,transparent 1.5px) 0 0/10px 10px,linear-gradient(115deg,#000 0 62%,#e5173f 62% 65%,#000 65% 80%,#8c0e26 80%)}
+#app{max-width:1000px;margin:0 auto;padding:20px;min-height:100vh;animation:in .35s}
+@keyframes in{from{opacity:0;transform:translateX(-30px) skewX(-8deg)}}
+.logo{font-size:clamp(64px,13vw,130px);font-style:italic;line-height:.9;margin:40px 0 0;transform:skew(-8deg);text-shadow:6px 6px #e5173f,-3px -3px #000;-webkit-text-stroke:2px #000}
+.sub{background:#fff;color:#000;display:inline-block;padding:4px 18px;font-size:20px;transform:skew(-12deg);margin:8px 0 30px;border-left:10px solid #e5173f}
+.menu{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+button{font:inherit;text-transform:uppercase;cursor:pointer;background:#000;color:#fff;border:0;padding:12px 40px 12px 24px;font-size:22px;
+ clip-path:polygon(0 0,100% 0,92% 100%,4% 100%);transition:.15s;margin:3px;min-width:240px;text-align:left}
+button:hover:not(:disabled){background:#e5173f;color:#fff;transform:translateX(18px) skewX(-6deg)}
+button:disabled{opacity:.35;cursor:default}
+.menu button{background:#fff;color:#000}.menu button:hover:not(:disabled){background:#e5173f;color:#fff}
+.banner{background:#e5173f;color:#fff;font-size:34px;font-style:italic;padding:8px 30px;display:inline-block;transform:skew(-10deg);border-bottom:5px solid #000;margin:10px 0}
+.card,.pc{background:#fff;color:#000;padding:8px 18px;margin:6px 0;transform:skew(-8deg);border-left:10px solid #e5173f;max-width:460px}
+.card small,.pc small{display:block;font-family:Arial,sans-serif;font-size:12px}
+.hp{height:9px;background:#333;margin:4px 0}.hp i{display:block;height:100%;background:#e5173f;transition:width .4s}
+h3{background:#000;display:inline-block;padding:2px 18px;border-left:8px solid #e5173f;transform:skew(-8deg)}
+/* dialog */
+.dlg{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) skewX(-4deg);width:min(900px,94vw);background:#000;border:4px solid #fff;box-shadow:10px 10px #e5173f;padding:34px 30px 22px;min-height:170px;cursor:pointer}
+.who{position:absolute;top:-24px;left:20px;background:#e5173f;color:#fff;font-size:26px;font-style:italic;padding:2px 28px;border:3px solid #fff;clip-path:polygon(0 0,100% 0,94% 100%,0 100%)}
+.dlg p{font-family:Arial,sans-serif;font-size:21px;text-transform:none;letter-spacing:0;margin:0;min-height:60px}
+.next{text-align:right;color:#e5173f;animation:bl 1s infinite}@keyframes bl{50%{opacity:.2}}
+/* battle */
+.stage{min-height:92vh;display:flex;flex-direction:column;justify-content:space-between}
+.foes{display:flex;justify-content:center;gap:24px;margin-top:40px}
+.foe{background:#fff;color:#000;padding:30px 40px;transform:skew(-8deg);min-width:240px;text-align:center;border-bottom:8px solid #e5173f;animation:in .4s}
+.foe .tag{font-size:26px}.foe.dead{opacity:.15}
+.log{background:#000b;border-left:6px solid #e5173f;padding:8px 16px;font-family:Arial,sans-serif;font-size:14px;text-transform:none;min-height:70px;margin:20px 0}
+.hud{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.cmd{display:flex;flex-direction:column}
+.cmd button:first-child{background:#e5173f;font-size:30px;min-width:300px}
+.cmd button{background:#fff;color:#000}.cmd button:hover:not(:disabled){background:#000;color:#fff}
+.party{min-width:300px}.pc.on{background:#e5173f;color:#fff;transform:skew(-8deg) translateX(-20px)}.pc.dead{opacity:.3}
+/* v3: efek, sprite, portrait */
+body{background:radial-gradient(#4a0c1a 1.5px,transparent 1.5px) 0 0/9px 9px,linear-gradient(115deg,#000 0 55%,#e5173f 55% 58%,#000 58% 78%,#8c0e26 78%);background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;box-shadow:inset 0 0 160px #000;z-index:0}#app{position:relative;z-index:1}
+.logo{animation:in .6s,pulse 3s infinite}@keyframes pulse{50%{text-shadow:10px 10px #e5173f,-3px -3px #000}}
+.spr{position:relative;flex:none;background:linear-gradient(160deg,#2a2a35,#000);overflow:hidden}
+.spr::after{content:attr(data-i);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:60px;color:#e5173f33}
+.spr.ok{background:none;overflow:visible}.spr.ok::after{display:none}
+.spr img{width:100%;height:100%;object-fit:contain;position:relative;z-index:1}
+.spr.pt{width:56px;height:56px;margin-right:12px;transform:skew(8deg);border:3px solid #000;overflow:hidden}.spr.pt img{object-fit:cover;object-position:top}
+.card,.pc{display:flex;align-items:center}.pi{flex:1}
+.fs{width:200px;height:260px;margin:-110px auto 10px;filter:drop-shadow(0 0 14px #e5173f);transform:skew(8deg);animation:float 3s ease-in-out infinite}
+@keyframes float{50%{transform:skew(8deg) translateY(-8px)}}
+.foe{position:relative;padding:16px 30px;margin-top:100px}
+.foe.hit,.pc.hit{animation:shake .4s}@keyframes shake{20%{transform:skew(-8deg) translateX(-12px)}40%{transform:skew(-8deg) translateX(12px)}60%{transform:skew(-8deg) translateX(-8px)}}
+.foe.hit .fs{filter:brightness(3) drop-shadow(0 0 20px #fff)}
+.dmg{position:absolute;right:10px;top:-10px;color:#fff;background:#e5173f;font-size:34px;padding:0 12px;transform:skew(-10deg);animation:up .9s forwards;z-index:3}
+@keyframes up{to{transform:translateY(-36px) skew(-10deg);opacity:0}}
+.scene{position:relative;min-height:90vh}
+.dp{position:absolute;left:5%;bottom:180px;width:min(380px,50vw);height:min(560px,62vh);animation:in .4s;filter:drop-shadow(8px 8px 0 #e5173f)}
+.dp:not(.ok){opacity:.5;width:200px;height:260px;bottom:200px}
+/* v4: potret dialog lebih rendah, badan bawah tertutup kotak dialog */
+.dlg{z-index:5}
+.dp{z-index:1;left:4%;bottom:70px;width:min(460px,55vw);height:min(720px,78vh);filter:drop-shadow(8px 0 0 #e5173f)}
+.dp img{object-fit:contain;object-position:top center}
+.dp:not(.ok){width:200px;height:260px;bottom:200px;opacity:.5}
+.em{font-size:110px;line-height:1;margin:-90px auto 10px;filter:drop-shadow(0 0 14px #e5173f);animation:float 3s ease-in-out infinite}

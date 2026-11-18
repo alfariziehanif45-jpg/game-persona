@@ -1,0 +1,29 @@
+/* ===== DIALOG / VISUAL NOVEL ala Persona ===== */
+#dlg{position:fixed;inset:0;z-index:9999;background:#000;overflow:hidden;font-family:inherit;color:#fff;animation:dlgIn .4s}
+@keyframes dlgIn{from{opacity:0}to{opacity:1}}
+#dlg .bg{position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,#3a0008,#000 75%);transition:background .6s}
+#dlg .bg::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,transparent 0 40px,rgba(255,255,255,.04) 40px 42px)}
+#dlg .bg.void{background:radial-gradient(circle at 50% 40%,#0a1a3a,#000 75%)}
+#dlg .bg.glitch{background:radial-gradient(circle at 50% 40%,#2a0030,#000 75%);animation:glitch .25s 3}
+#dlg .bg.dawn{background:radial-gradient(circle at 50% 40%,#4a3a00,#000 75%)}
+@keyframes glitch{0%,100%{transform:none}25%{transform:translate(-6px,3px) skewX(2deg)}60%{transform:translate(5px,-3px) skewX(-2deg)}}
+#dlg .stage{position:absolute;left:0;right:0;bottom:170px;top:0;display:flex;justify-content:center;align-items:flex-end;gap:2vw;pointer-events:none}
+#dlg .sp{height:78%;max-height:520px;filter:brightness(.4) grayscale(.5);transform:translateY(14px) skewX(-3deg);transition:.3s;opacity:0}
+#dlg .sp.on{opacity:1}
+#dlg .sp.talk{filter:none;transform:translateY(0) skewX(-3deg) scale(1.04)}
+#dlg .sp img{height:100%;object-fit:contain;display:block;border:3px solid #fff;background:#111;box-shadow:8px 8px 0 #e60012}
+#dlg .box{position:absolute;left:4%;right:4%;bottom:24px;min-height:140px;background:#0a0a0a;border:3px solid #fff;box-shadow:8px 8px 0 #e60012;padding:26px 30px 18px;transform:skewX(-3deg);cursor:pointer}
+#dlg .box>*{transform:skewX(3deg)}
+#dlg .name{position:absolute;top:-22px;left:24px;background:#e60012;color:#fff;font-style:italic;font-weight:900;font-size:22px;padding:2px 22px;border:3px solid #fff;letter-spacing:2px;transform:skewX(3deg)}
+#dlg .txt{font-size:20px;line-height:1.5;min-height:60px;white-space:pre-wrap}
+#dlg .txt.narr{font-style:italic;color:#ddd}
+#dlg .nxt{position:absolute;right:26px;bottom:10px;color:#e60012;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:0}}
+#dlg .choices{position:absolute;left:12%;right:12%;top:22%;display:flex;flex-direction:column;gap:14px}
+#dlg .choices button{background:#0a0a0a;color:#fff;border:3px solid #fff;padding:14px 22px;font-size:20px;font-style:italic;font-weight:800;text-align:left;cursor:pointer;transform:skewX(-6deg);transition:.15s;box-shadow:6px 6px 0 #e60012}
+#dlg .choices button:hover{background:#e60012;transform:skewX(-6deg) translateX(14px)}
+#dlg .skip{position:absolute;top:14px;right:18px;background:#000;color:#fff;border:2px solid #fff;padding:4px 14px;cursor:pointer;z-index:2}
+#dlg .title{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;background:#000;z-index:3;text-align:center;animation:dlgIn 1s}
+#dlg .title h1{font-size:clamp(32px,6vw,72px);font-style:italic;color:#fff;text-shadow:5px 5px 0 #e60012;margin:0}
+#dlg .title p{color:#e60012;letter-spacing:6px;margin-top:12px}
+#dlg .toast{position:absolute;top:60px;left:50%;transform:translateX(-50%) skewX(-6deg);background:#e60012;border:3px solid #fff;padding:6px 24px;font-style:italic;font-weight:800;z-index:2;animation:dlgIn .3s}

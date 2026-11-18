@@ -1,0 +1,90 @@
+/* v5: gaya Persona 5 - layout battle, radial menu, hub, ticker */
+body{background:#000;background-image:linear-gradient(115deg,transparent 0 40%,#e5173f 40% 43%,transparent 43% 70%,#a30f2d 70% 74%,transparent 74%),radial-gradient(#5a0f1f 1.5px,transparent 1.5px);background-size:auto,9px 9px;background-attachment:fixed}
+body::after{content:"TAKE YOUR TIME  \2605  TAKE YOUR HEART  \2605  TAKE YOUR TIME  \2605  TAKE YOUR HEART  \2605  TAKE YOUR TIME";position:fixed;left:-20px;right:-20px;bottom:0;background:#e5173f;color:#000;font-size:14px;white-space:nowrap;overflow:hidden;padding:2px 30px;transform:rotate(-1deg);z-index:0;opacity:.9}
+.wipe{position:fixed;inset:0;background:#e5173f;z-index:99;pointer-events:none;animation:wipe .6s forwards;clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+@keyframes wipe{0%{transform:translateX(-110%) skewX(-20deg)}50%{transform:translateX(0)}100%{transform:translateX(110%) skewX(-20deg)}}
+.intro{position:fixed;left:0;right:0;top:40%;background:#000;color:#fff;font-size:64px;font-style:italic;text-align:center;border-top:6px solid #e5173f;border-bottom:6px solid #e5173f;transform:skewY(-3deg);z-index:50;animation:ban 1.6s forwards;pointer-events:none}
+.intro b{color:#e5173f}@keyframes ban{0%{opacity:0;transform:translateX(-100%) skewY(-3deg)}15%,80%{opacity:1;transform:translateX(0) skewY(-3deg)}100%{opacity:0;transform:translateX(100%) skewY(-3deg)}}
+.obj{background:#fff;color:#000;display:inline-block;padding:4px 20px;transform:skew(-10deg);margin:6px 0 14px;border-right:10px solid #e5173f}
+.hub{display:flex;gap:30px;flex-wrap:wrap}.hub>div{flex:1;min-width:280px}
+.hub .card{max-width:none}.card{background:#000;color:#fff;border:3px solid #fff;border-left:12px solid #e5173f}
+.pc{background:#000;color:#fff;border:3px solid #fff;border-left:12px solid #e5173f}.pc.on{background:#e5173f;border-color:#000;box-shadow:6px 6px #000}
+.foe{background:#000;color:#fff;border:3px solid #fff;cursor:pointer;box-shadow:8px 8px #e5173f}.foe.t{background:#e5173f;transform:skew(-8deg) scale(1.08)}
+.foe.t .tag::before{content:"\25BC ";}.em{font-size:130px}
+.radial{position:relative;width:340px;height:300px}
+.radial button{position:absolute;min-width:0;width:190px;padding:10px 18px;font-size:20px;background:#fff;color:#000;clip-path:polygon(6% 0,100% 0,94% 100%,0 100%);border:0}
+.radial button:first-child{background:#e5173f;color:#fff;font-size:26px}
+.radial button:hover:not(:disabled){background:#000;color:#fff;transform:scale(1.1)}
+.radial::before{content:"";position:absolute;left:-20px;top:20px;width:260px;height:260px;border:10px solid #e5173f;border-radius:50%;opacity:.5}
+.crit{color:#ff0;font-size:42px;position:absolute;left:50%;top:30%;animation:up 1s forwards;z-index:9;text-shadow:3px 3px #e5173f}
+.hud{align-items:flex-end}.stage{padding-bottom:30px}
+/* v6: title screen gaya ransom-note */
+.rl{display:inline-block;padding:0 6px;margin:0 1px;font-size:36px;line-height:1.15;text-transform:uppercase;font-weight:900;box-shadow:3px 3px 0 #0008}
+.rl.w{background:#fff;color:#000}.rl.b{background:#000;color:#fff}.rl.r{background:#e5173f;color:#fff}.rl.n{background:none;color:#fff;box-shadow:none;text-shadow:3px 3px #000}.sp{display:inline-block;width:16px}
+.ttl{position:relative;min-height:92vh;overflow:hidden}
+.tr{position:absolute;right:-6%;top:2%;width:62%;height:90%;background:#e5173f;clip-path:polygon(38% 0,100% 0,100% 100%,0 72%,24% 36%);z-index:0;animation:in .6s}
+.stars{position:absolute;right:0;top:0;width:34%;height:100%;background:repeating-linear-gradient(135deg,#fff 0 14px,#000 14px 28px);clip-path:polygon(40% 0,100% 0,100% 100%,0 100%);opacity:.85;z-index:0}
+.stars::after{content:"\2605  \2605  \2605";position:absolute;left:30%;top:40%;font-size:90px;color:#e5173f;letter-spacing:20px;text-shadow:4px 4px #000}
+.tt{position:absolute;right:6%;top:5%;z-index:2;text-align:right}.tt .rl{font-size:clamp(44px,8vw,92px)}
+.tb{position:absolute;right:4%;top:calc(5% + 120px);background:#000;color:#fff;font-size:18px;padding:4px 24px;border:3px solid #fff;transform:rotate(-3deg);z-index:2}
+.tm{position:absolute;left:5%;top:24%;display:flex;flex-direction:column;gap:6px;z-index:3}
+.ti{background:none!important;clip-path:none!important;min-width:0!important;padding:0!important;margin:0!important;transform:none;transition:.15s;text-align:left}
+.ti .rl{font-size:42px}.ti:nth-child(2){margin-left:34px!important}.ti:nth-child(3){margin-left:10px!important}.ti:nth-child(4){margin-left:40px!important}
+.ti:hover:not(:disabled),.ti:focus{transform:translateX(26px) rotate(-3deg) scale(1.12)!important}
+.ti:hover:not(:disabled) .rl,.ti:focus .rl{background:#e5173f;color:#fff}
+.tc{position:absolute;left:3%;bottom:70px;z-index:3;max-width:60%}.tc .rl{font-size:clamp(40px,7vw,80px)}
+.tc small{display:block;margin-top:8px;background:#000;border:2px solid #fff;padding:4px 16px;font:700 15px Arial;text-transform:none;transform:skew(-8deg);width:fit-content}
+.tp{position:absolute;right:3%;bottom:44px;z-index:3;font-size:20px;background:#000;padding:2px 14px;border:2px solid #fff}
+/* v7: chapter select */
+.cs{display:flex;gap:20px;min-height:92vh;flex-wrap:wrap}
+.cl{flex:1;min-width:280px;position:relative}.cc{position:absolute;left:-20%;top:5%;width:520px;height:520px;max-width:120%;border-radius:50%;background:radial-gradient(#e5173f 60%,#6a0a1a);opacity:.9}
+.ci{position:relative;padding:20px}.tb2{background:#fff;color:#000;display:inline-block;padding:6px 26px;font-size:30px;font-style:italic;transform:rotate(-3deg);border-left:12px solid #e5173f}
+#cd{background:#000;border:3px solid #fff;padding:12px 18px;margin-top:30px;font-size:26px;transform:skew(-6deg);max-width:420px}#cd small{font:14px Arial;text-transform:none}
+.cr{width:min(460px,100%);display:flex;flex-direction:column;gap:12px;padding-bottom:50px}
+.cp{background:#000;border:3px solid #fff;padding:8px 16px;transform:skew(-6deg) rotate(-1deg);display:grid;grid-template-columns:70px 1fr;align-items:center;box-shadow:6px 6px #e5173f;transition:.15s}
+.cp:hover:not(.lock){transform:skew(-6deg) translateX(-16px)}.cp.lock{opacity:.35;filter:grayscale(1)}
+.cn{font-size:46px;color:#e5173f;-webkit-text-stroke:1px #fff;grid-row:span 2}.ct .rl{font-size:18px}
+.sb{display:flex;gap:6px;margin-top:6px}.sb button{min-width:0;font-size:13px;padding:4px 10px;background:#fff;color:#000;clip-path:none;margin:0}.sb button:hover:not(:disabled){transform:none;background:#e5173f;color:#fff}
+/* v8: hub bergaya menu game (tab, sidebar, panel diagonal, kartu bernomor) */
+.hb{display:flex;flex-direction:column;min-height:94vh;background:#0c0c10;border:3px solid #000}
+.hbt{display:flex;align-items:center;gap:14px;padding:10px 16px;flex-wrap:wrap}.hbk{font-size:14px;background:#fff;color:#000;padding:2px 12px;transform:skew(-10deg)}
+.tabs{display:flex;gap:4px;flex:1;flex-wrap:wrap;background:#1a1a22;padding:4px;border-radius:30px}
+.tb3{min-width:0;padding:6px 16px;font-size:15px;background:#222;color:#aaa;clip-path:none;border-radius:20px;margin:0;transform:none}.tb3.on{background:#e5173f;color:#fff;box-shadow:0 0 0 3px #ff0}
+.tb3:hover:not(:disabled){transform:none;background:#444;color:#fff}.yen{color:#ff0;font-size:22px}
+.hbm{display:flex;flex:1;min-height:420px}.hbs{width:190px;background:#15151b;padding:10px;display:flex;flex-direction:column;gap:8px}
+.si{min-width:0;width:100%;font-size:15px;background:#1f1f28;color:#999;clip-path:none;border-radius:20px;padding:8px 14px;margin:0;border:2px solid #333;transform:none}.si.on{border-color:#ff0;color:#fff;background:#2a1018}.si:hover:not(:disabled){transform:none;background:#e5173f;color:#fff}
+.hbp{flex:1;position:relative;overflow:hidden;padding:30px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:16px;background:linear-gradient(135deg,#ff3b57 0 40%,#111 40% 48%,#b01030 48% 100%)}
+.wm{position:absolute;right:10px;bottom:-30px;font-size:130px;color:#fff3;font-style:italic;pointer-events:none}
+.kc{position:relative;z-index:1;background:#000;color:#fff;min-width:210px;padding:6px 14px 8px 54px;transform:skew(-6deg);border-left:6px solid #fff}
+.kc:nth-child(even){margin-top:36px}.kc b{position:absolute;left:0;top:0;bottom:0;width:44px;background:#fff;color:#000;display:flex;align-items:center;justify-content:center;font-size:22px}
+.kc span{font-size:20px;font-style:italic;display:block}.kc small{font:13px Arial;text-transform:none;color:#bbb;display:block}
+.bb{min-width:0;margin:6px 0 0;padding:4px 14px;font-size:13px;background:#e5173f;clip-path:none}
+.hbf{display:flex;gap:10px;padding:8px 16px;justify-content:flex-end;background:#000}.hbf button{min-width:0;font-size:16px;background:#fff;color:#000;clip-path:none;transform:skew(-10deg)}.hbf button:hover:not(:disabled){background:#e5173f;color:#fff;transform:skew(-10deg)}
+/* v9: battle HUD gaya Persona 5 */
+.bt{position:relative;height:92vh;min-height:580px;overflow:hidden;border:3px solid #000;background:radial-gradient(ellipse at 50% 22%,#9a2a12 0,#3a0a0a 48%,#0a0202 88%)}
+.bfloor{position:absolute;left:-30%;right:-30%;bottom:0;height:48%;background:repeating-conic-gradient(#ddd 0 25%,#1a1a1a 0 50%) 0 0/100px 100px;transform:perspective(520px) rotateX(58deg);transform-origin:bottom;opacity:.55}
+.bfloor::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 28%,#b01030 28% 72%,transparent 72%)}
+.bbn{position:absolute;top:16px;left:-12px;z-index:6;background:#000;border:3px solid #fff;padding:4px 44px 4px 26px;transform:skew(-14deg) rotate(-4deg);display:flex;align-items:center;gap:12px;box-shadow:8px 8px #e5173f}
+.bbn span{font-size:30px;background:#e5173f;border-radius:50%;padding:0 6px}.bbn b{font-size:34px;font-style:italic}
+.bnav{position:absolute;top:12px;right:14px;z-index:6;display:flex;align-items:center;max-width:52%;flex-direction:row-reverse;gap:0}
+.bnav i{font-style:normal;font-size:46px;width:84px;height:84px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#0b3d91;border:4px solid #fff;flex:none}
+.bnav p{margin:0;background:#000;color:#fff;padding:18px 40px;font:700 16px Arial;text-transform:none;clip-path:polygon(0 12%,8% 0,30% 10%,55% 0,80% 8%,100% 0,97% 50%,100% 100%,72% 90%,42% 100%,14% 90%,0 100%)}
+.bfoes{position:absolute;left:24%;right:6%;top:22%;display:flex;justify-content:center;gap:36px;z-index:3}
+.bf{position:relative;width:150px;text-align:center;cursor:pointer}.bf .em{margin:0;font-size:92px;filter:drop-shadow(0 0 12px #000)}.bf .hp{width:100px;margin:2px auto}.bf.dead{opacity:.15}
+.bf.hit{animation:shake .4s}.bf .lock{display:none}
+.bf.t .lock{display:block;position:absolute;left:50%;top:2px;width:126px;height:126px;margin-left:-63px;border:6px solid #e5173f;border-radius:50%;box-shadow:0 0 18px #e5173f;animation:float 1.2s infinite}
+.bf.t .lock::after{content:"\2665";position:absolute;right:-26px;top:-10px;font-size:46px;color:#2ff;text-shadow:3px 3px #000}
+.bhero{position:absolute;left:14%;bottom:-24px;z-index:2}.bh{width:300px;height:480px;filter:drop-shadow(6px 0 0 #e5173f)}.bh img{object-position:bottom}.bh:not(.ok){opacity:.25;width:200px;height:340px}
+.brad{position:absolute;left:22%;top:32%;width:400px;height:400px;z-index:5}
+.brad button{position:absolute;isolation:isolate;min-width:0!important;background:none!important;clip-path:none!important;transform:rotate(var(--r))!important;padding:6px 26px 6px 14px;margin:0;text-align:left;transition:.12s}
+.brad button::before{content:"";position:absolute;inset:4px -8px;background:#e5173f;clip-path:polygon(0 28%,100% 0,94% 100%,4% 82%);z-index:-1}
+.brad button b{display:block;font-size:34px;font-style:italic;color:#fff;-webkit-text-stroke:2px #000;paint-order:stroke fill;text-shadow:3px 3px #000}
+.brad button i{display:block;font:700 12px Arial;text-transform:none;color:#fff}
+.brad button:hover:not(:disabled){transform:rotate(var(--r)) scale(1.15)!important}.brad button:hover:not(:disabled)::before{background:#fff}.brad button:hover:not(:disabled) b{color:#000;-webkit-text-stroke:0;text-shadow:none}.brad button:hover:not(:disabled) i{color:#000}
+.brad button:disabled{opacity:.4;filter:grayscale(1)}
+.blog{position:absolute;left:16px;bottom:48px;z-index:5;background:#000b;border-left:6px solid #e5173f;padding:6px 14px;font:13px Arial;text-transform:none;min-width:240px}
+.bhud{position:absolute;right:14px;bottom:46px;z-index:6;display:flex;gap:10px;align-items:flex-end}
+.bm{position:relative;width:128px;background:#000;border:3px solid #fff;transform:skew(-8deg);padding:4px 8px}.bm.on{transform:skew(-8deg) translateY(-20px);border-color:#e5173f;box-shadow:5px 5px #e5173f}
+.bm.dead{opacity:.35}.bm.hit{animation:shake .4s}.bm .spr.pt{margin:0 auto 4px;transform:none}
+.bn span{font-size:13px;font-style:italic}.bn b{font-size:28px}.bn .sp b{color:#ff6ad5}
+.bkeys{position:absolute;left:0;right:0;bottom:0;z-index:6;background:#000;padding:4px 14px;display:flex;gap:14px;flex-wrap:wrap;font-size:14px}.bkeys span{background:#fff;color:#000;padding:0 10px;transform:skew(-10deg)}
