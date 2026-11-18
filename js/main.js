@@ -1,4 +1,6 @@
 window.G=window.G||{};G.spr=G.spr||(()=>"");G.slug=G.slug||(n=>String(n).toLowerCase());
+/* ===== BAHASA (ID/EN/JP): fungsi aslinya ada di js/lang.js. Baris ini hanya pengaman kalau lang.js belum dimuat ===== */
+G.T=G.T||(s=>s);G.cycleLang=G.cycleLang||(()=>{});G.langName=G.langName||(()=>'');
 /* sprite KAEL ALTERNATE: kalau belum ada gambar assets/characters/altkael.png, otomatis pakai sprite Kael */
 if(!G.spr.__alt){const _sp=G.spr;G.spr=function(a,k,...r){const v=_sp.call(this,a,k,...r);return(!v&&k==='altkael')?_sp.call(this,a,'kael',...r):v};G.spr.__alt=1}
 /* ===== GABUNG DATA TAMBAHAN dari chapters.js (side chapter baru & boss chapter 11-25) ===== */
@@ -83,6 +85,9 @@ G.EXCL_POOL={
   {n:'Uriel',e:'\u{1F31F}',kd:'elec',pow:90,sp:26,cd:3,price:1500,d:'Api cahaya Tuhan. Petir suci menyambar musuh.'}]};
 G.ensureEx=()=>{
  if(G.EXOK||!G.CHARS)return;G.EXOK=1;G.SKILLS=G.SKILLS||[];G.PERSONAS=G.PERSONAS||[];
+
+ if (G.loadExtraPersonas) G.loadExtraPersonas(); 
+ 
  /* daftarkan KAEL ALTERNATE sebagai protagonis (join:-1 = tidak pernah bergabung otomatis lewat cerita utama) */
  if(G.CHARS.kael&&!G.CHARS.altkael)G.CHARS.altkael=Object.assign({},G.CHARS.kael,{n:'Alternate Kael',join:-1,img:(G.dw&&G.dw.altImg)||(G.FIN&&G.FIN.altImg)||'assets/characters/altkael.png'});
  const add=(arr,o)=>{if(!arr.some(v=>v.id==o.id))arr.push(o)},
@@ -212,9 +217,10 @@ G.tLabel=t=>({iblis:'Iblis',malaikat:'Malaikat',dewa:'Dewa',pahlawan:'Pahlawan D
 #app .hb .pw>*{display:block;width:100%!important;height:100%!important;object-fit:cover}
 #app .hb .por{display:block;flex:none;height:230px;margin-top:auto;overflow:hidden;background:#000;border:4px solid #fff;box-shadow:8px 8px 0 #e60012;transform:skewX(-6deg) rotate(1.2deg)}
 #app .hb .por>*{display:block;width:100%!important;height:100%!important;object-fit:cover;object-position:top}
-#app .hb .hbp{position:relative;z-index:1;display:grid;flex:1;min-width:0;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:24px 28px;align-content:start;padding:32px 44px 32px 36px;overflow-y:auto}
+/* Grid layout: Item akan berjejer dari kiri ke kanan. Lebar minmax dikecilkan agar lebih banyak yang muat sejajar */
+#app .hb .hbp{position:relative;z-index:1;display:grid;flex:1;min-width:0;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px 24px;align-content:start;padding:24px 36px 24px 28px;overflow-y:auto;justify-content:start}
 #app .hb .wm{position:absolute;right:30px;bottom:-14px;z-index:0;font-size:160px;letter-spacing:4px;color:rgba(255,255,255,.14);transform:rotate(-6deg);pointer-events:none;white-space:nowrap}
-#app .hb .kc{position:relative;display:grid;grid-template-columns:64px 1fr;column-gap:16px;align-items:center;align-content:center;min-height:92px;padding:12px 20px 14px 0;background:#0a0a0a;color:#fff;border:3px solid #fff;box-shadow:8px 8px 0 #e60012;transform:skewX(-8deg) rotate(-.5deg);animation:hbIn .38s backwards;transition:.15s}
+#app .hb .kc{position:relative;display:grid;grid-template-columns:64px 1fr;column-gap:16px;align-items:start;align-content:center;min-height:92px;padding:12px 20px 14px 0;background:#0a0a0a;color:#fff;border:3px solid #fff;box-shadow:8px 8px 0 #e60012;transform:skewX(-8deg) rotate(-.5deg);animation:hbIn .38s backwards;transition:.15s}
 #app .hb .kc:nth-child(even){transform:skewX(-8deg) rotate(.6deg)}
 #app .hb .kc:hover{transform:skewX(-8deg) translate(-4px,-4px);box-shadow:12px 12px 0 #ffd400}
 #app .hb .kc.wide{grid-column:1/-1}
@@ -223,9 +229,11 @@ G.tLabel=t=>({iblis:'Iblis',malaikat:'Malaikat',dewa:'Dewa',pahlawan:'Pahlawan D
 #app .hb .kc.dim{opacity:.62}
 #app .hb .kc>b{display:flex;align-items:center;justify-content:center;grid-column:1;grid-row:1/span 5;align-self:stretch;margin:-12px 0 -14px -3px;background:#fff;color:#000;font-size:32px}
 #app .hb .kc.eq>b{background:#ffd400}
-#app .hb .kc>span{display:block;grid-column:2;font-size:30px;line-height:1.05;letter-spacing:1px;text-shadow:3px 3px 0 #e60012}
-#app .hb .kc>small{display:block;grid-column:2;margin-top:5px;font:700 14px/1.35 'Trebuchet MS',Arial,sans-serif;font-style:normal;color:#e8e8e8}
-#app .hb .kc>:not(b):not(span):not(small){grid-column:2;margin-top:10px}
+#app .hb .kc>span{display:block;grid-column:2;font-size:24px;line-height:1.1;letter-spacing:1px;text-shadow:3px 3px 0 #e60012;margin-bottom:4px;word-break:break-word}
+#app .hb .kc>small{display:block;grid-column:2;margin-top:4px;font:700 13px/1.4 'Trebuchet MS',Arial,sans-serif;font-style:normal;color:#e8e8e8;word-break:break-word}
+/* PERBAIKAN MUTLAK: Memaksa tombol kategori (ITEM, SKILL, PERSONA) berjejer ke samping (row) */
+#app .hb .kc>div { grid-column: 2; margin-top: 10px; display: flex !important; flex-direction: row !important; flex-wrap: wrap !important; gap: 10px; align-items: center; }
+#app .hb .kc>.bb, #app .hb .kc>button{grid-column:2;margin-top:10px;justify-self:start}
 #app .hb .bb{display:inline-block;justify-self:start;cursor:pointer;background:#e60012;color:#fff;font-size:20px;letter-spacing:1px;padding:6px 22px;border:2px solid #fff;box-shadow:4px 4px 0 #000;transform:skewX(-10deg);transition:.12s}
 #app .hb .bb:hover{background:#fff;color:#e60012;transform:skewX(-10deg) translate(-2px,-2px)}
 #app .hb .bb.on{background:#fff;color:#000}
@@ -243,20 +251,23 @@ G.tLabel=t=>({iblis:'Iblis',malaikat:'Malaikat',dewa:'Dewa',pahlawan:'Pahlawan D
 #app .hb .hbf button:hover{background:#ffd400;transform:skewX(-14deg) translate(-3px,-3px);box-shadow:8px 8px 0 #e60012}
 #app .hb .hbf #go{background:#e60012;color:#fff;font-size:30px;padding:12px 48px;border:3px solid #fff;box-shadow:5px 5px 0 #fff}
 #app .hb .hbf #go:hover{background:#fff;color:#e60012}
+#app .hb .hbf #lg{background:#ffd400;font-size:20px;padding:10px 24px}
 #app .hb ::-webkit-scrollbar{width:10px}#app .hb ::-webkit-scrollbar-track{background:#000}#app .hb ::-webkit-scrollbar-thumb{background:#e60012;border:2px solid #000}
 @keyframes hbIn{from{opacity:0;translate:-60px 0}}
 ${nth}`;document.head.appendChild(st)})();
 const A=()=>document.getElementById('app'),$=id=>document.getElementById(id);
-G.rn=(t,seed=0)=>[...t].map((ch,i)=>{if(ch==' ')return'<span class="sp"></span>';const r=(i*7+seed*13+ch.charCodeAt(0))%9,st=['w','b','r','w','b','n','w','r','b'][r],f=['Impact','Georgia','Arial Black','Courier New','Trebuchet MS'][(r+i)%5],rot=((r*5+i*3)%13)-6,sz=1+((r+i)%4)*.08;return`<span class="rl ${st}" style="font-family:${f};transform:rotate(${rot}deg) scale(${sz})">${ch}</span>`}).join('');
+G.rn=(t,seed=0)=>[...G.T(t)].map((ch,i)=>{if(ch==' ')return'<span class="sp"></span>';const r=(i*7+seed*13+ch.charCodeAt(0))%9,st=['w','b','r','w','b','n','w','r','b'][r],f=['Impact','Georgia','Arial Black','Courier New','Trebuchet MS'][(r+i)%5],rot=((r*5+i*3)%13)-6,sz=1+((r+i)%4)*.08;return`<span class="rl ${st}" style="font-family:${f};transform:rotate(${rot}deg) scale(${sz})">${ch}</span>`}).join('');
 function ttl(sub,items){A().innerHTML=`<div class="ttl"><div class="tr"></div><div class="stars"></div><div class="tt">${G.rn('PESONA')}</div><div class="tb">${sub}</div><div class="tm">${items.map((it,k)=>`<button class="ti" data-k="${k}" ${it.dis?'disabled':''}>${G.rn(it.t,k)}</button>`).join('')}</div><div class="tc" id="tc"></div><div class="tp">&#9675; Back &nbsp; &#10005; Confirm</div></div>`;
  const show=k=>{$('tc').innerHTML=G.rn(items[k].t,k+3)+`<small>${items[k].d}</small>`};const f=items.findIndex(x=>!x.dis);show(f);
  A().querySelectorAll('.ti').forEach(b=>{const k=+b.dataset.k;b.onmouseenter=b.onfocus=()=>show(k);b.onclick=items[k].f})}
 /* ================= MENU UTAMA + SISTEM 3 SLOT SAVE =================
-   (fungsi G.slotInfo, G.slotHas, G.setSlot, G.load(n), G.wipe(n) ada di file save) */
-function menu(){G.ui.free=0;ttl('MENU: MAIN &#9733; SELECT A COMMAND',[
+   (fungsi G.slotInfo, G.slotHas, G.setSlot, G.load(n), G.wipe(n) ada di file save)
+   Item "Bahasa" mengganti bahasa teks: Indonesia > English > 日本語 (lihat js/lang.js) */
+function menu(){G.ui.free=0;G.langHook&&G.langHook();ttl('MENU: MAIN &#9733; SELECT A COMMAND',[
  {t:'New Game',d:'Mulai petualangan baru di Multiverse Archive.',f:pickDiff},
  {t:'Load',d:'Pilih salah satu dari '+G.SLOTS+' slot save.',f:loadMenu,dis:!G.hasSave()},
- {t:'Hapus Save',d:'Hapus salah satu slot save.',f:delMenu,dis:!G.hasSave()}])}
+ {t:'Hapus Save',d:'Hapus salah satu slot save.',f:delMenu,dis:!G.hasSave()},
+ {t:G.langName(),d:'Ganti bahasa teks: Indonesia / English / 日本語.',f:()=>{G.cycleLang();menu()}}])}
 function loadMenu(){ttl('LOAD &#9733; SELECT A SLOT',[
  ...Array.from({length:G.SLOTS},(_,i)=>({t:'Slot '+(i+1),d:G.slotInfo(i+1),dis:!G.slotHas(i+1),f:()=>{if(G.load(i+1))hub();else menu()}})),
  {t:'Back',d:'Kembali ke menu utama.',f:menu}])}
@@ -278,7 +289,7 @@ G.ui=G.ui||{tab:'status',sel:'kael'};
    Kunci stok harus sama dengan di battle.js (ITEMS): items, hipot, megapot, spitems, elixir, grpot, revive, mrevive, atkc, defc,
    spmega, ether, panacea, megaelx, grsp, grmega, grelx, reviveall, rainc, timesand, spark */
 const SHOP=[
- ['Potion',60,1,'items','Pulihkan 50 HP','Obat dasar untuk satu anggota tim. Murah dan cocok dibawa banyak.'],
+ ['Potion',60,1,'items','Pulihkan 50 HP','Obat dasar untuk satu anggota. Murah dan cocok dibawa banyak.'],
  ['Potion Pack x3',150,3,'items','3x Potion, lebih hemat','Paket 3 Potion dengan harga lebih murah dibanding beli satuan.'],
  ['High Potion',140,1,'hipot','Pulihkan 40% HP (min 150)','Pemulihan besar untuk satu anggota. Efektif untuk karakter dengan HP tinggi.'],
  ['High Potion Pack x3',390,3,'hipot','3x High Potion, lebih hemat','Paket 3 High Potion dengan harga lebih murah dibanding beli satuan.'],
@@ -337,7 +348,7 @@ function hub(){G.capLv&&G.capLv();G.ensureEx&&G.ensureEx();G.altCheck&&G.altChec
     rw=x.rw?` &bull; Hadiah \u00a5${x.rw.yen||0}`+(x.rw.items?` + ${x.rw.items} Potion`:'')+(x.rw.sp?` + ${x.rw.sp} SP Drink`:''):'';
    return kc(String(i+1).padStart(2,'0'),x.t,`${st} &bull; ${kind}${rw}`,d||lock?`<button class="bb" disabled>${d?'SELESAI':'TERKUNCI'}</button>`:`<button class="bb" data-s="${x.id}">MAIN</button>`,0,d||lock?'dim':'eq')}).join('')}
  if(U.tab=='chapter')cards=(done?kc('\u2605','TAMAT','Semua chapter utama sudah kamu selesaikan. Pakai PILIH CHAPTER untuk mengulang chapter mana pun, atau lanjut farming lewat Dungeon & Side Chapter.','<button class="bb" id="cs">PILIH CHAPTER</button><button class="bb" data-t="side">LIHAT SEMUA SIDE CHAPTER</button>',1):kc('01','CHAPTER '+(S.ch+1)+': '+c.t,`${epLabel(S.ch)?epLabel(S.ch)+' &bull; ':''}Stage ${S.st+1}/3 &bull; Boss: ${c.boss}`,'<button class="bb" id="cs">PILIH CHAPTER</button><button class="bb" data-t="side">LIHAT SEMUA SIDE CHAPTER ('+side2.length+' tersedia)</button>'))+side2.map((x,i)=>kc('S'+(i+1),x.t,'Side chapter'+(x.rw?` &bull; Hadiah \u00a5${x.rw.yen||0}`+(x.rw.items?` + ${x.rw.items} Potion`:''):''),`<button class="bb" data-s="${x.id}">MAIN</button>`)).join('');
- A().innerHTML=`<div class="wipe"></div><div class="hb"><div class="hbbg"></div><div class="hbt"><span class="hbk">${done?'TAMAT':`${epTag(S.ch)?epTag(S.ch)+' &bull; ':''}CH ${S.ch+1} &bull; ST ${S.st+1}/3`} &bull; ${G.DIFF[S.diff].n}</span><div class="tabs">${TABS.map(([k,t])=>`<button class="tb3 ${k==U.tab?'on':''}" data-t="${k}">${t}</button>`).join('')}</div><span class="yen">\u00a5 ${S.yen}</span></div><div class="hbm"><div class="hbs">${hd}${side}${por}</div><div class="hbp">${cards}</div><div class="wm">${TABS.find(x=>x[0]==U.tab)[1]}</div></div><div class="hbf"><button id="go">${done?'Ending':'Main Story'}</button><button id="sv">Save</button><button id="mn">Menu</button></div></div>`;
+ A().innerHTML=`<div class="wipe"></div><div class="hb"><div class="hbbg"></div><div class="hbt"><span class="hbk">${done?'TAMAT':`${epTag(S.ch)?epTag(S.ch)+' &bull; ':''}CH ${S.ch+1} &bull; ST ${S.st+1}/3`} &bull; ${G.DIFF[S.diff].n}</span><div class="tabs">${TABS.map(([k,t])=>`<button class="tb3 ${k==U.tab?'on':''}" data-t="${k}">${t}</button>`).join('')}</div><span class="yen">\u00a5 ${S.yen}</span></div><div class="hbm"><div class="hbs">${hd}${side}${por}</div><div class="hbp">${cards}</div><div class="wm">${TABS.find(x=>x[0]==U.tab)[1]}</div></div><div class="hbf"><button id="lg">${G.langName()}</button><button id="go">${done?'Ending':'Main Story'}</button><button id="sv">Save</button><button id="mn">Menu</button></div></div>`;
  const q=(s,f)=>A().querySelectorAll(s).forEach(f);
  q('[data-t]',b=>b.onclick=()=>{U.tab=b.dataset.t;hub()});
  q('.si',b=>b.onclick=()=>{const k=b.dataset.k;if(U.tab=='team'){if(k=='kael'||!S.lv[k])return;const i=S.party.indexOf(k);if(i>=0)S.party.splice(i,1);else if(S.party.length<4)S.party.push(k)}else U.sel=k;hub()});
@@ -353,7 +364,8 @@ function hub(){G.capLv&&G.capLv();G.ensureEx&&G.ensureEx();G.altCheck&&G.altChec
  q('[data-s]',b=>b.onclick=()=>{const s=G.SIDE.find(x=>x.id==b.dataset.s);if(!s||S.side[s.id]||S.ch<(s.after||0))return;G.dialog(s.d,()=>G.fight(G.sideFoes(s),r=>{if(r){S.side[s.id]=1;const m=G.sideReward(s);G.save();alert(m);hub()}else after()},[s.boss]))});
  q('[data-dg]',b=>b.onclick=()=>{const D=G.DUNGEONS.find(x=>x.id==b.dataset.dg);if(!D||S.ch<D.need)return;
   if(confirm(`Masuk ${D.n}?\n${D.d}\n\nKalah = hadiah dungeon yang belum diambil hangus`+(G.DIFF[S.diff].perma?'\nPERINGATAN HARDCORE: kalah = save terhapus!':'')))G.runDungeon(D)});
- if($('cs'))$('cs').onclick=chapters;$('go').onclick=()=>done?ending():S.st==0?G.dialog(c.intro,stage):stage();$('sv').onclick=()=>{G.save();alert('Tersimpan di Slot '+G.slot)};$('mn').onclick=menu}
+ if($('cs'))$('cs').onclick=chapters;$('go').onclick=()=>done?ending():S.st==0?G.dialog(c.intro,stage):stage();$('sv').onclick=()=>{G.save();alert('Tersimpan di Slot '+G.slot)};$('mn').onclick=menu;
+ $('lg').onclick=()=>{G.cycleLang();hub()}}
 /* ================= ENDING / TAMAT (gaya Persona 5) =================
    Tombol dibuat di dalam <div class="menu"> dengan id cs & mn, supaya tombol tambahan dari file lain
    (misalnya DEATH WORLD) tetap bisa disisipkan seperti biasa. */
@@ -389,10 +401,10 @@ function ending(){const S=G.state,U=G.ui;U.free=0;
  A().innerHTML=`<div class="wipe"></div><div class="end"><div class="endbg"></div>
  <div class="endl"><span class="endk">EPISODE CLEAR</span><span class="endt">TAMAT</span>
   <span class="ends">Semua chapter berhasil kamu selesaikan. Terima kasih sudah bermain! Kamu masih bisa farming di Dungeon dan Side Chapter, atau mengulang chapter mana pun.</span>
-  <div class="menu"><button id="hubfree">Lanjut Bebas (Hub)</button><button id="cs">Pilih Chapter</button><button id="mn">Menu</button></div></div>
+  <div class="menu"><button id="hubfree">Lanjut Bebas (Hub)</button><button id="cs">Pilih Chapter</button><button id="mn">Menu</button><button id="lg">${G.langName()}</button></div></div>
  <div class="endr"><span class="endh">LAPORAN PETUALANGAN</span>${rows.map(([l,v],i)=>`<span class="er" style="animation-delay:${i*.06}s"><small>${l}</small><b>${v}</b></span>`).join('')}</div>
  <div class="endf"><span>${tick}</span></div></div>`;
- $('hubfree').onclick=()=>{U.free=1;U.tab='status';hub()};$('cs').onclick=chapters;$('mn').onclick=menu}
+ $('hubfree').onclick=()=>{U.free=1;U.tab='status';hub()};$('cs').onclick=chapters;$('mn').onclick=menu;$('lg').onclick=()=>{G.cycleLang();ending()}}
 /* setelah kalah: muat ulang slot aktif; kalau slot sudah terhapus (hardcore) kembali ke menu */
 function after(){G.hasSave()&&G.load()?hub():menu()}
 /* pembungkus G.battle: kalau Kael Alternate kalah, kemenangan dicatat permanen (meta, tidak ikut terhapus bersama save) */
